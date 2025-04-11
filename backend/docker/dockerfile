@@ -1,23 +1,24 @@
 FROM node:23-slim
 
-# Instala netcat y cliente MySQL (si en algún punto querés debuggear o testear conexiones manualmente)
+# Instala netcat y cliente MySQL (útil para debugging)
 RUN apt-get update && \
     apt-get install -y netcat-openbsd default-mysql-client && \
     apt-get clean
 
-# Crea el directorio de trabajo
 WORKDIR /app
 
-# Copia primero los package.json para aprovechar cache en builds
+# Copia package.json + lock para aprovechar cache
 COPY package*.json ./
+
 RUN npm install
 RUN npm install -g nodemon
 
-# Copia el resto del proyecto
+# Copia todo el código del backend (incluyendo prisma/)
 COPY . .
 
-# Expone el puerto en el que corre tu API
+# Genera cliente Prisma una vez copiado el schema
+RUN npx prisma generate
+
 EXPOSE 5000
 
-# Comando de arranque
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
