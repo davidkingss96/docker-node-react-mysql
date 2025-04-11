@@ -4,7 +4,7 @@ echo "⏳ Esperando a que MySQL esté disponible..."
 
 until node -e "
   (async () => {
-    const { checkConnection } = await import('./db.js');
+    const { checkConnection } = await import('./src/config/db.js');
     const ok = await checkConnection();
     if (!ok) {
       console.log('❌ MySQL no está listo.');

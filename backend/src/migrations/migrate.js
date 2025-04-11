@@ -1,4 +1,4 @@
-import pool from './db.js';
+import pool from './../config/db.js';
 
 export async function runMigrations() {
   const connection = await pool.getConnection();

@@ -1,6 +1,6 @@
 import express from 'express';
-import pool from './db.js';
-import { runMigrations } from './migrate.js';
+import pool from './config/db.js';
+import { runMigrations } from './migrations/migrate.js';
 
 const app = express();
 const PORT = 5000;
