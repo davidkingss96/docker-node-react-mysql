@@ -20,6 +20,9 @@ services:
     container_name: node_backend
     restart: always
     env_file: ./backend/.env
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
     ports:
       - "5000:5000"
     depends_on:

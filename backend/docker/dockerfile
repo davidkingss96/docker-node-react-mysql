@@ -1,17 +1,22 @@
 FROM node:23-slim
 
-# Instala netcat Y mysql-client (necesario para mysqladmin)
+# Instala netcat y cliente MySQL (si en algún punto querés debuggear o testear conexiones manualmente)
 RUN apt-get update && \
     apt-get install -y netcat-openbsd default-mysql-client && \
     apt-get clean
 
+# Crea el directorio de trabajo
 WORKDIR /app
+
+# Copia primero los package.json para aprovechar cache en builds
 COPY package*.json ./
 RUN npm install
+
+# Copia el resto del proyecto
 COPY . .
 
-# Solo necesitamos entrypoint.sh ahora
-COPY docker/entrypoint.sh ./entrypoint.sh
-RUN chmod +x ./entrypoint.sh
+# Expone el puerto en el que corre tu API
+EXPOSE 5000
 
-ENTRYPOINT ["./entrypoint.sh"]
+# Comando de arranque
+CMD ["npm", "start"]

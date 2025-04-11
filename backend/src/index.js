@@ -1,11 +1,8 @@
 import express from 'express';
 import pool from './config/db.js';
-import { runMigrations } from './migrations/migrate.js';
 
 const app = express();
 const PORT = 5000;
-
-runMigrations(); // ⬅️ corre antes de levantar el servidor
 
 app.get('/users', async (req, res) => {
   try {
