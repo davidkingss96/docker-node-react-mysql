@@ -11,6 +11,7 @@ WORKDIR /app
 # Copia primero los package.json para aprovechar cache en builds
 COPY package*.json ./
 RUN npm install
+RUN npm install -g nodemon
 
 # Copia el resto del proyecto
 COPY . .
