@@ -5,8 +5,8 @@
 ### 1. Clonar el repositorio y entrar al proyecto
 
 ```bash
-git clone https://github.com/tu-usuario/tu-proyecto.git
-cd tu-proyecto
+git clone https://github.com/davidkingss96/docker-node-react-mysql
+cd docker-node-react-mysql
 ```
 
 ### 2. Crear el frontend con React + Vite desde contenedor NodeJS (sin instalar Node local)
