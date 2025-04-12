@@ -40,4 +40,44 @@ export const deleteUser = async (id: number) => {
         console.error('Error eliminando usuario:', error);
         throw error;
     }
-};
+}
+
+export const getProducts = async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/products`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        throw error;
+    }
+}
+
+export const createProduct = async (productData: any) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/products`, productData);
+        return response.data;
+    } catch (error) {
+        console.error("Error creating product:", error);
+        throw error;
+    }
+}
+
+export const updateProduct = async (id: number, data: any) => {
+    try {
+        const response = await axios.put(`${API_BASE_URL}/products/${id}`, data);
+        return response.data;
+    } catch (error) {
+        console.error('Error actualizando producto:', error);
+        throw error;
+    }
+}
+
+export const deleteProduct = async (id: number) => {
+    try {
+        const response = await axios.delete(`${API_BASE_URL}/products/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error eliminando producto:', error);
+        throw error;
+    }
+}

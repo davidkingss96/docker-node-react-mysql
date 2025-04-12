@@ -19,15 +19,16 @@ const Formulario: React.FC<FormularioProps> = ({ campos, modo, valoresIniciales 
     const [formData, setFormData] = useState<any>(valoresIniciales);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
+        const { name, value, type } = event.target;
         setFormData({
             ...formData,
-            [name]: value
+            [name]: type === 'number' ? parseFloat(value) : value
         });
     };
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
+        console.log('Datos enviados:', formData);
         onSubmit(formData);
     };
 
