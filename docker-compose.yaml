@@ -12,6 +12,8 @@ services:
       - mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
+    networks:
+      - app-network
 
   backend:
     build:
@@ -28,6 +30,8 @@ services:
     depends_on:
       - db
     command: npm start
+    networks:
+      - app-network
 
   frontend:
     build: ./frontend
@@ -40,6 +44,12 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    networks:
+      - app-network
 
 volumes:
   mysql_data:
+
+networks:
+  app-network:
+    driver: bridge
