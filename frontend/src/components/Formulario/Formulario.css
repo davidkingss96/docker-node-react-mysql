@@ -1,0 +1,40 @@
+/* Modal Styles */
+.formulario {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;  /* Asegura que el modal se vea sobre otros elementos */
+    width: 400px;
+}
+
+.formulario-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);  /* Fondo oscuro */
+    z-index: 999;  /* Asegura que el fondo esté detrás del modal */
+}
+
+.formulario h2 {
+    margin-bottom: 20px;
+}
+
+.formulario form {
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario form div {
+    margin-bottom: 10px;
+}
+
+.formulario button {
+    margin-top: 10px;
+}

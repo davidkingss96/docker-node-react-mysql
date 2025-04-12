@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getUsers } from '../../services/backend';
-import './Usuarios.css'
+import { getUsers, createUser } from '../../services/backend';
+import Formulario from '../Formulario/Formulario'; // Asegúrate que esta ruta es correcta
+import './Usuarios.css';
 
 interface User {
     id: number;
@@ -13,6 +14,7 @@ const Usuarios: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
     const [search, setSearch] = useState('');
+    const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -39,7 +41,7 @@ const Usuarios: React.FC = () => {
     };
 
     const handleCreateNew = () => {
-        alert('Crear nuevo usuario');
+        setMostrarFormulario(true);
     };
 
     const handleEdit = (userId: number) => {
@@ -48,6 +50,17 @@ const Usuarios: React.FC = () => {
 
     const handleDelete = (userId: number) => {
         alert(`Eliminar usuario con ID: ${userId}`);
+    };
+
+    const handleSubmit = async (datos: any) => {
+        try {
+            const nuevo = await createUser(datos);
+            setUsers((prev) => [...prev, nuevo]);
+            setFilteredUsers((prev) => [...prev, nuevo]);
+            setMostrarFormulario(false);
+        } catch (err) {
+            console.error('Error al crear usuario:', err);
+        }
     };
 
     return (
@@ -61,6 +74,22 @@ const Usuarios: React.FC = () => {
                 />
                 <button onClick={handleCreateNew}>Crear Nuevo</button>
             </div>
+
+            {/* Mostrar el modal */}
+            {mostrarFormulario && (
+                <>
+                    <div className="formulario-overlay" onClick={() => setMostrarFormulario(false)}></div> {/* Fondo oscuro */}
+                    <Formulario
+                        campos={[
+                            { nombre: 'name', tipo: 'text', label: 'Nombre' },
+                            { nombre: 'email', tipo: 'email', label: 'Email' },
+                        ]}
+                        modo="crear"
+                        onSubmit={handleSubmit}
+                        onCancel={() => setMostrarFormulario(false)}
+                    />
+                </>
+            )}
 
             <table className="usuarios-table">
                 <thead>
