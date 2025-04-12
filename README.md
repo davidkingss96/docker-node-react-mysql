@@ -1,3 +1,4 @@
+
 # Proyecto con React, Express y MySQL en Docker
 
 ## 🚀 Instalación (Windows PowerShell)
@@ -30,3 +31,36 @@ docker run --rm -it `
 Este proyecto incluye un pequeño script `wait-for-it.sh` que **espera a que la base de datos esté lista** antes de correr el servidor y aplicar migraciones automáticamente.
 
 No más errores como `ECONNREFUSED`.
+
+---
+
+## 📦 Métodos de la API
+
+Este proyecto incluye una API básica para gestionar usuarios y productos. A continuación, te detallo los métodos disponibles:
+
+### Usuarios
+- **GET** `/users` - Obtener todos los usuarios.
+- **GET** `/users/{id}` - Obtener un usuario por su ID.
+- **POST** `/users` - Crear un nuevo usuario.
+- **PUT** `/users/{id}` - Actualizar un usuario existente.
+- **DELETE** `/users/{id}` - Eliminar un usuario.
+
+### Productos
+- **GET** `/products` - Obtener todos los productos.
+- **GET** `/products/{id}` - Obtener un producto por su ID.
+- **POST** `/products` - Crear un nuevo producto.
+- **PUT** `/products/{id}` - Actualizar un producto existente.
+- **DELETE** `/products/{id}` - Eliminar un producto.
+
+---
+
+## 🧑‍💻 Postman Collection
+
+Puedes importar esta colección para probar los endpoints directamente desde Postman. [Descargar colección Postman](./postman_collection.json).
+
+---
+
+## ⭐ Dale una estrella si te gustó el proyecto
+
+Si te ha sido útil o te ha gustado este proyecto, ¡no dudes en darle una estrella! Gracias por tu apoyo.
+
