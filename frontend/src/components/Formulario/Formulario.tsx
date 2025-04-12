@@ -9,13 +9,14 @@ interface Campo {
 
 interface FormularioProps {
     campos: Campo[];
-    modo: 'crear' | 'editar';  // Puede ser crear o editar
+    modo: 'crear' | 'editar';
+    valoresIniciales?: any;
     onSubmit: (datos: any) => Promise<void>;
     onCancel: () => void;
 }
 
-const Formulario: React.FC<FormularioProps> = ({ campos, modo, onSubmit, onCancel }) => {
-    const [formData, setFormData] = useState<any>({});
+const Formulario: React.FC<FormularioProps> = ({ campos, modo, valoresIniciales = {}, onSubmit, onCancel }) => {
+    const [formData, setFormData] = useState<any>(valoresIniciales);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -47,7 +48,7 @@ const Formulario: React.FC<FormularioProps> = ({ campos, modo, onSubmit, onCance
                     </div>
                 ))}
                 <button type="submit">Guardar</button>
-                <button type="button" onClick={onCancel}>Cancelar</button>
+                <button className="cancel" type="button" onClick={onCancel}>Cancelar</button>
             </form>
         </div>
     );

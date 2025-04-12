@@ -21,3 +21,13 @@ export const createUser = async (userData: any) => {
         throw error;
     }
 }
+
+export const updateUser = async (id: number, data: any) => {
+    try {
+        const response = await axios.put(`${API_BASE_URL}/users/${id}`, data);
+        return response.data;
+    } catch (error) {
+        console.error('Error actualizando usuario:', error);
+        throw error;
+    }
+};

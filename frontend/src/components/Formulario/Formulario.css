@@ -37,4 +37,57 @@
 
 .formulario button {
     margin-top: 10px;
+    padding: 0.5rem 1rem;
+    background-color: #1f6feb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.formulario button.cancel {
+    background-color: red;
+}
+
+.formulario label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333; /* Color más suave y elegante */
+    transition: color 0.3s ease;
+}
+
+.formulario input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Al enfocarse en el input */
+.formulario input:focus {
+    border-color: #007BFF; /* Cambio de color al enfoque */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Resaltado suave al enfocarse */
+}
+
+.formulario form div input[type="text"],
+.formulario form div input[type="email"],
+.formulario form div input[type="password"] {
+    background-color: #f9f9f9; /* Fondo sutil para el input */
+    border: 1px solid #ddd; /* Borde más suave */
+}
+
+.formulario input::placeholder {
+    color: #aaa; /* Color del placeholder */
+    font-style: italic;
+}
+
+/* Estilo de enfoque en los labels */
+.formulario label:hover {
+    color: #007BFF; /* Color de texto al pasar el mouse */
 }

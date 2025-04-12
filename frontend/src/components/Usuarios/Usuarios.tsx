@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getUsers, createUser } from '../../services/backend';
-import Formulario from '../Formulario/Formulario'; // Asegúrate que esta ruta es correcta
+import { getUsers, createUser, updateUser } from '../../services/backend';
+import Formulario from '../Formulario/Formulario';
 import './Usuarios.css';
+import { MdEdit, MdDelete } from "react-icons/md";
 
 interface User {
     id: number;
@@ -15,6 +16,7 @@ const Usuarios: React.FC = () => {
     const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
     const [search, setSearch] = useState('');
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
+    const [usuarioEditando, setUsuarioEditando] = useState<User | null>(null);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -41,11 +43,16 @@ const Usuarios: React.FC = () => {
     };
 
     const handleCreateNew = () => {
+        setUsuarioEditando(null);
         setMostrarFormulario(true);
     };
 
     const handleEdit = (userId: number) => {
-        alert(`Editar usuario con ID: ${userId}`);
+        const user = users.find((u) => u.id === userId);
+        if (user) {
+            setUsuarioEditando(user);
+            setMostrarFormulario(true);
+        }
     };
 
     const handleDelete = (userId: number) => {
@@ -54,12 +61,19 @@ const Usuarios: React.FC = () => {
 
     const handleSubmit = async (datos: any) => {
         try {
-            const nuevo = await createUser(datos);
-            setUsers((prev) => [...prev, nuevo]);
-            setFilteredUsers((prev) => [...prev, nuevo]);
+            if (usuarioEditando) {
+                const actualizado = await updateUser(usuarioEditando.id, datos);
+                const nuevos = users.map(u => u.id === actualizado.id ? actualizado : u);
+                setUsers(nuevos);
+                setFilteredUsers(nuevos);
+            } else {
+                const nuevo = await createUser(datos);
+                setUsers(prev => [...prev, nuevo]);
+                setFilteredUsers(prev => [...prev, nuevo]);
+            }
             setMostrarFormulario(false);
         } catch (err) {
-            console.error('Error al crear usuario:', err);
+            console.error('Error al guardar usuario:', err);
         }
     };
 
@@ -75,16 +89,16 @@ const Usuarios: React.FC = () => {
                 <button onClick={handleCreateNew}>Crear Nuevo</button>
             </div>
 
-            {/* Mostrar el modal */}
             {mostrarFormulario && (
                 <>
-                    <div className="formulario-overlay" onClick={() => setMostrarFormulario(false)}></div> {/* Fondo oscuro */}
+                    <div className="formulario-overlay" onClick={() => setMostrarFormulario(false)}></div>
                     <Formulario
                         campos={[
                             { nombre: 'name', tipo: 'text', label: 'Nombre' },
                             { nombre: 'email', tipo: 'email', label: 'Email' },
                         ]}
-                        modo="crear"
+                        modo={usuarioEditando ? 'editar' : 'crear'}
+                        valoresIniciales={usuarioEditando || {}}
                         onSubmit={handleSubmit}
                         onCancel={() => setMostrarFormulario(false)}
                     />
@@ -109,8 +123,12 @@ const Usuarios: React.FC = () => {
                             <td>{user.email}</td>
                             <td>{new Date(user.createdAt).toLocaleString()}</td>
                             <td>
-                                <button onClick={() => handleEdit(user.id)}>✏️</button>
-                                <button onClick={() => handleDelete(user.id)}>🗑️</button>
+                                <button onClick={() => handleEdit(user.id)}>
+                                    <MdEdit size={20} color="blue" />
+                                </button>
+                                <button onClick={() => handleDelete(user.id)}>
+                                    <MdDelete size={20} color="red" />
+                                </button>
                             </td>
                         </tr>
                     ))}
