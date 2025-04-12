@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUsers, createUser, updateUser } from '../../services/backend';
+import { getUsers, createUser, updateUser, deleteUser } from '../../services/backend';
 import Formulario from '../Formulario/Formulario';
 import './Usuarios.css';
 import { MdEdit, MdDelete } from "react-icons/md";
@@ -55,8 +55,18 @@ const Usuarios: React.FC = () => {
         }
     };
 
-    const handleDelete = (userId: number) => {
-        alert(`Eliminar usuario con ID: ${userId}`);
+    const handleDelete = async (userId: number) => {
+        const confirmar = window.confirm("¿Estás seguro de que quieres eliminar este usuario?");
+        if (!confirmar) return;
+
+        try {
+            await deleteUser(userId);
+            setUsers((prev) => prev.filter((u) => u.id !== userId));
+            setFilteredUsers((prev) => prev.filter((u) => u.id !== userId));
+        } catch (error) {
+            console.error("Error al eliminar usuario:", error);
+            alert("Hubo un error al eliminar el usuario.");
+        }
     };
 
     const handleSubmit = async (datos: any) => {

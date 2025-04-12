@@ -30,4 +30,14 @@ export const updateUser = async (id: number, data: any) => {
         console.error('Error actualizando usuario:', error);
         throw error;
     }
+}
+
+export const deleteUser = async (id: number) => {
+    try {
+        const response = await axios.delete(`${API_BASE_URL}/users/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error eliminando usuario:', error);
+        throw error;
+    }
 };
