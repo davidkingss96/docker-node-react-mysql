@@ -26,12 +26,80 @@ docker run --rm -it `
 
 ---
 
-## 🧠 Bonus: Sincronización del backend con MySQL
+## Uso de Prisma
 
-Este proyecto incluye un pequeño script `wait-for-it.sh` que **espera a que la base de datos esté lista** antes de correr el servidor y aplicar migraciones automáticamente.
+Este proyecto utiliza Prisma ORM para interactuar con la base de datos MySQL. Prisma facilita la administración de modelos y migraciones en la base de datos.
 
-No más errores como `ECONNREFUSED`.
+### 1. Instalación de dependencias de Prisma
 
+Primero, asegúrate de haber instalado las dependencias de Prisma en el backend del proyecto:
+
+```bash
+npm install @prisma/client
+npm install prisma --save-dev
+```
+
+### 2. Configuración de Prisma
+
+Prisma requiere un archivo de configuración prisma/schema.prisma, donde definimos el modelo de la base de datos. Este archivo ya está configurado en el proyecto, pero si necesitas realizar algún cambio, sigue estos pasos:
+
+- En el archivo prisma/schema.prisma, puedes definir los modelos (por ejemplo, User, Product, etc.).
+- Asegúrate de que la URL de la base de datos esté configurada correctamente en el archivo prisma/.env, en la variable DATABASE_URL.
+
+Ejemplo de archivo .env:
+
+```bash
+DATABASE_URL="mysql://root:password@localhost:3306/mi_base_de_datos"
+```
+
+### 3. Generar las migraciones
+
+Cuando hagas cambios en el modelo de Prisma (por ejemplo, agregar un nuevo modelo o campo), debes crear una migración. Para ello, sigue estos pasos:
+
+- Crea la migración con el siguiente comando:
+
+```bash
+npx prisma migrate dev --name nombre_de_migracion
+```
+Esto creará una nueva migración y actualizará tu base de datos.
+
+### 4. Aplicar las migraciones a la base de datos
+
+Una vez que hayas creado las migraciones, puedes aplicarlas a tu base de datos. Para ello, usa:
+
+```bash
+npx prisma migrate deploy
+```
+Este comando aplicará todas las migraciones pendientes a la base de datos.
+
+### 5. Generar el cliente Prisma
+
+Después de crear o modificar migraciones, también debes regenerar el cliente Prisma. Esto es necesario para que los cambios de los modelos se reflejen en el cliente utilizado en el código:
+
+```bash
+npx prisma generate
+```
+
+### 6. Verificar la base de datos con Prisma Studio (opcional)
+
+Para explorar la base de datos de manera visual y sencilla, puedes usar Prisma Studio:
+
+```bash
+npx prisma studio
+```
+Esto abrirá una interfaz gráfica en tu navegador para interactuar con los datos de tu base de datos.
+
+
+### Resumen de Comandos
+- Crear una migración: npx prisma migrate dev --name nombre_de_migracion
+- Aplicar migraciones: npx prisma migrate deploy
+- Generar el cliente Prisma: npx prisma generate
+- Verificar la base de datos con Prisma Studio: npx prisma studio
+
+Notas adicionales:
+Manejo de errores: Si encuentras problemas al aplicar migraciones, puedes revisar los registros generados por Prisma para obtener detalles.
+
+Sincronización automática: Prisma tiene un enfoque de migración que te permite gestionar de manera eficiente las alteraciones en la estructura de la base de datos a lo largo del tiempo.
 ---
 
 ## 📦 Métodos de la API
