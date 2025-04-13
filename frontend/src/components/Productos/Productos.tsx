@@ -1,5 +1,3 @@
-// src/components/Productos/Productos.tsx
-
 import React, { useEffect, useState } from 'react';
 import { getProducts, createProduct, updateProduct, deleteProduct } from '../../services/backend';
 import Formulario from '../Formulario/Formulario';
